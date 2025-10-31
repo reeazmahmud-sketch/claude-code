@@ -20,6 +20,35 @@ npm install -g @anthropic-ai/claude-code
 
 2. Navigate to your project directory and run `claude`.
 
+## SideAi - macOS Productivity App
+
+This repository now includes **SideAi**, a modern macOS productivity application built with Swift and SwiftUI, inspired by Side.ai.
+
+### Features
+- 🎯 **Task Management**: Create, organize, and track tasks with priorities
+- 📅 **Schedule & Events**: Visual calendar with event management
+- 🔔 **Smart Reminders**: Customizable reminders with repeat options
+- 🔐 **Secure Storage**: Encrypted data using macOS Keychain
+- ⚙️ **Customizable Settings**: Themes, notifications, and preferences
+- 🎨 **Elegant UI**: Native SwiftUI interface following Apple HIG
+
+### Quick Start
+```bash
+cd SideAiMacApp
+swift build
+swift run
+```
+
+For detailed documentation, see:
+- [SideAiMacApp/README.md](./SideAiMacApp/README.md) - Overview and features
+- [SideAiMacApp/QUICKSTART.md](./SideAiMacApp/QUICKSTART.md) - Quick start guide
+- [SideAiMacApp/DEVELOPMENT.md](./SideAiMacApp/DEVELOPMENT.md) - Development guide
+- [SideAiMacApp/FEATURES.md](./SideAiMacApp/FEATURES.md) - Complete feature list
+
+**Requirements**: macOS 13.0+, Swift 6.0+, Xcode 15.0+ (recommended)
+
+---
+
 ## Plugins
 
 This repository includes several Claude Code plugins that extend functionality with custom commands and agents. See the [plugins directory](./plugins/README.md) for detailed documentation on available plugins.
