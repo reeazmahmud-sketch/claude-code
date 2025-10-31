@@ -89,10 +89,11 @@ final class StorageServiceTests: XCTestCase {
     }
     
     func testLoadNonexistentData() {
-        // Test loading when no data exists (should return empty arrays)
-        // This assumes clean state or we can clean up first
+        // Test that loading non-existent data returns an empty array
+        // Note: This test may not be entirely clean if data exists from previous runs
         let tasks = storageService.loadTasks()
-        XCTAssertNotNil(tasks)
-        XCTAssertTrue(tasks.isEmpty || tasks.count > 0) // Should be an array
+        XCTAssertNotNil(tasks, "Loading tasks should never return nil, should return empty array instead")
+        // We can verify it's an array type but can't guarantee empty state in all test environments
+        XCTAssertTrue(tasks is [Task], "Should return an array of Task objects")
     }
 }

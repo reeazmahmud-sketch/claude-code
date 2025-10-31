@@ -45,19 +45,19 @@ struct SidebarView: View {
     @Binding var selectedTab: ContentView.Tab
     
     var body: some View {
-        List {
+        List(selection: $selectedTab) {
             Section("Main") {
-                NavigationLink(value: ContentView.Tab.tasks) {
+                Button(action: { selectedTab = .tasks }) {
                     Label("Tasks", systemImage: "checklist")
                 }
                 .tag(ContentView.Tab.tasks)
                 
-                NavigationLink(value: ContentView.Tab.schedule) {
+                Button(action: { selectedTab = .schedule }) {
                     Label("Schedule", systemImage: "calendar")
                 }
                 .tag(ContentView.Tab.schedule)
                 
-                NavigationLink(value: ContentView.Tab.reminders) {
+                Button(action: { selectedTab = .reminders }) {
                     Label("Reminders", systemImage: "bell")
                 }
                 .tag(ContentView.Tab.reminders)

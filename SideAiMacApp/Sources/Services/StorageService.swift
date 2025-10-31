@@ -55,7 +55,8 @@ class StorageService {
             let fileURL = documentsDirectory.appendingPathComponent(filename)
             try encryptedData.write(to: fileURL, options: [.atomic])
         } catch {
-            print("Error saving \(filename): \(error)")
+            // Log error for debugging - in production, use proper logging framework
+            NSLog("StorageService: Error saving \(filename): \(error.localizedDescription)")
         }
     }
     
@@ -75,7 +76,8 @@ class StorageService {
             decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode(T.self, from: jsonData)
         } catch {
-            print("Error loading \(filename): \(error)")
+            // Log error for debugging - in production, use proper logging framework
+            NSLog("StorageService: Error loading \(filename): \(error.localizedDescription)")
             return nil
         }
     }
@@ -138,7 +140,16 @@ class StorageService {
         // Get or create encryption key from keychain
         let encryptionKey = getOrCreateEncryptionKey(for: key)
         
-        // Simple XOR encryption (for demonstration - use proper encryption in production)
+        // NOTE: This uses simple XOR encryption for demonstration purposes.
+        // PRODUCTION RECOMMENDATION: Use Apple's CryptoKit framework with AES-GCM:
+        //
+        // import CryptoKit
+        // let symmetricKey = SymmetricKey(data: encryptionKey.data(using: .utf8)!)
+        // let sealedBox = try AES.GCM.seal(data, using: symmetricKey)
+        // return sealedBox.combined!
+        //
+        // XOR encryption is NOT cryptographically secure for production use.
+        
         var encrypted = Data()
         let keyData = encryptionKey.data(using: .utf8) ?? Data()
         
@@ -156,7 +167,7 @@ class StorageService {
             throw StorageError.keyNotFound
         }
         
-        // Simple XOR decryption (for demonstration - use proper encryption in production)
+        // NOTE: Corresponding XOR decryption - see encryptData for production recommendations
         var decrypted = Data()
         let keyData = encryptionKey.data(using: .utf8) ?? Data()
         

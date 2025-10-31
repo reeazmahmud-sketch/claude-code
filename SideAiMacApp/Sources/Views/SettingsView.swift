@@ -110,13 +110,10 @@ struct NotificationSettingsView: View {
                 )
             }
             
-            Section("Preferences") {
-                Toggle("Show notification badges", isOn: .constant(true))
-                    .disabled(true)
-                    .help("Badge count reflects active tasks and reminders")
-                
-                Toggle("Play sound for notifications", isOn: .constant(true))
-                    .disabled(true)
+            Section("Info") {
+                Text("Additional notification preferences can be configured in System Settings.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -144,13 +141,10 @@ struct AppearanceSettingsView: View {
                 .pickerStyle(.radioGroup)
             }
             
-            Section("Interface") {
-                Toggle("Use compact layout", isOn: .constant(false))
-                    .disabled(true)
-                    .help("Coming soon")
-                
-                Toggle("Show sidebar icons", isOn: .constant(true))
-                    .disabled(true)
+            Section("Info") {
+                Text("The interface follows macOS system conventions and adapts to your theme selection.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
         }
         .formStyle(.grouped)

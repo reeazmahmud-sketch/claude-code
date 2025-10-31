@@ -22,10 +22,11 @@ class TaskManager: ObservableObject {
         
         // Schedule reminder if set
         if let reminderDate = task.reminderDate {
+            let notificationBody = task.description.isEmpty ? "Task due soon" : task.description
             NotificationManager.scheduleNotification(
                 id: task.id.uuidString,
                 title: "Task Reminder: \(task.title)",
-                body: task.description,
+                body: notificationBody,
                 date: reminderDate
             )
         }
@@ -39,10 +40,11 @@ class TaskManager: ObservableObject {
             // Update notification
             NotificationManager.cancelNotification(id: task.id.uuidString)
             if let reminderDate = task.reminderDate, !task.isCompleted {
+                let notificationBody = task.description.isEmpty ? "Task due soon" : task.description
                 NotificationManager.scheduleNotification(
                     id: task.id.uuidString,
                     title: "Task Reminder: \(task.title)",
-                    body: task.description,
+                    body: notificationBody,
                     date: reminderDate
                 )
             }
