@@ -65,14 +65,14 @@ for agent_dir in $agent_dirs; do
         echo "----------------------------------------"
         
         # Process each agent file
-        while IFS= read -r agent_file; do
+        echo "$agent_files" | while IFS= read -r agent_file; do
             [ -z "$agent_file" ] && continue
             total_agents=$((total_agents + 1))
             
             # Extract metadata from frontmatter
-            name=$(grep "^name:" "$agent_file" | head -1 | sed -n 's/^name: *//p')
-            description=$(grep "^description:" "$agent_file" | head -1 | sed -n 's/^description: *//p')
-            model=$(grep "^model:" "$agent_file" | head -1 | sed -n 's/^model: *//p')
+            name=$(grep "^name:" "$agent_file" | head -1 | sed 's/^name: *//')
+            description=$(grep "^description:" "$agent_file" | head -1 | sed 's/^description: *//')
+            model=$(grep "^model:" "$agent_file" | head -1 | sed 's/^model: *//')
             
             # If name is not in frontmatter, use filename
             if [ -z "$name" ]; then
@@ -94,7 +94,7 @@ for agent_dir in $agent_dirs; do
             fi
             echo "     Location: $agent_file"
             echo ""
-        done <<< "$agent_files"
+        done
         echo ""
     fi
 done
