@@ -54,24 +54,25 @@ for agent_dir in $agent_dirs; do
     # Get plugin name from path
     plugin_name=$(echo "$agent_dir" | sed 's|plugins/\([^/]*\)/agents|\1|')
     
-    # Count agents in this directory
+    # Find agent files
     agent_files=$(find "$agent_dir" -type f -name "*.md" | sort)
-    agent_count=$(echo "$agent_files" | wc -l)
     
-    if [ $agent_count -gt 0 ]; then
+    # Check if there are any agent files
+    if [ -n "$agent_files" ]; then
         plugin_count=$((plugin_count + 1))
         
         echo "Plugin: $plugin_name ($agent_dir)"
         echo "----------------------------------------"
         
         # Process each agent file
-        for agent_file in $agent_files; do
+        while IFS= read -r agent_file; do
+            [ -z "$agent_file" ] && continue
             total_agents=$((total_agents + 1))
             
             # Extract metadata from frontmatter
-            name=$(grep "^name:" "$agent_file" | head -1 | sed 's/name: *//')
-            description=$(grep "^description:" "$agent_file" | head -1 | sed 's/description: *//')
-            model=$(grep "^model:" "$agent_file" | head -1 | sed 's/model: *//')
+            name=$(grep "^name:" "$agent_file" | head -1 | sed -n 's/^name: *//p')
+            description=$(grep "^description:" "$agent_file" | head -1 | sed -n 's/^description: *//p')
+            model=$(grep "^model:" "$agent_file" | head -1 | sed -n 's/^model: *//p')
             
             # If name is not in frontmatter, use filename
             if [ -z "$name" ]; then
@@ -80,9 +81,11 @@ for agent_dir in $agent_dirs; do
             
             echo "  $total_agents. $name"
             if [ -n "$description" ]; then
-                # Truncate long descriptions to first 200 characters
-                if [ ${#description} -gt 200 ]; then
-                    description="${description:0:200}..."
+                # Truncate long descriptions to first 200 characters (portable way)
+                desc_len=${#description}
+                if [ "$desc_len" -gt 200 ]; then
+                    description=$(echo "$description" | cut -c1-200)
+                    description="${description}..."
                 fi
                 echo "     Description: $description"
             fi
@@ -91,7 +94,7 @@ for agent_dir in $agent_dirs; do
             fi
             echo "     Location: $agent_file"
             echo ""
-        done
+        done <<< "$agent_files"
         echo ""
     fi
 done
